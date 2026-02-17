@@ -1,0 +1,5 @@
+[tools]
+go = "1.25.0"
+
+[prepare]
+go = { auto = true }
