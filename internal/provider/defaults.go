@@ -5,7 +5,7 @@ import "maps"
 func defaultLabels(architecture string) map[string]string {
 	return map[string]string{
 		"os":      "talos",
-		"creator": "hcloud-talos/imager",
+		"creator": "hcloud-talos-imager",
 		"arch":    architecture,
 	}
 }

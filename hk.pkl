@@ -1,0 +1,49 @@
+amends "package://github.com/jdx/hk/releases/download/v1.36.0/hk@1.36.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.36.0/hk@1.36.0#/Builtins.pkl"
+
+local defaultSteps = new Mapping<String, Step> {
+    ["go-fmt"] = Builtins.go_fmt
+    ["gomod-tidy"] {
+        glob = List("go.mod", "go.sum", "**/*.go")
+        check_diff = "go mod tidy -diff"
+        fix = "go mod tidy"
+        stage = List("go.mod", "go.sum")
+    }
+    ["golangci-lint"] = (Builtins.golangci_lint) {
+        check = "golangci-lint run --fix=false ./..."
+        fix = "golangci-lint run --fix ./..."
+    }
+}
+
+local checkSteps = new Mapping<String, Step> {
+    ["go-fmt"] = Builtins.go_fmt
+    ["gomod-tidy"] {
+        glob = List("go.mod", "go.sum", "**/*.go")
+        check_diff = "go mod tidy -diff"
+        fix = "go mod tidy"
+        stage = List("go.mod", "go.sum")
+    }
+    ["golangci-lint"] = (Builtins.golangci_lint) {
+        check = "golangci-lint run --fix=false ./..."
+        fix = "golangci-lint run --fix ./..."
+    }
+    ["go-test"] {
+        glob = List("go.mod", "go.sum", "**/*.go")
+        check = "go test ./..."
+    }
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps = defaultSteps
+    }
+    ["fix"] {
+        fix = true
+        steps = defaultSteps
+    }
+    ["check"] {
+        steps = checkSteps
+    }
+}

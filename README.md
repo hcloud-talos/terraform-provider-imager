@@ -55,6 +55,28 @@ This provider expects a public `https://...*.raw.xz` URL. A common workflow is t
 
 See `terraform-provider-imager/examples/with-talos/main.tf`.
 
+## Testing
+
+### Acceptance tests
+
+Acceptance tests create real Hetzner Cloud resources (billable) and require:
+
+- `TF_ACC=1`
+- `HCLOUD_TOKEN`
+- `IMAGER_TEST_IMAGE_URL` (public `https://...*.raw.xz` URL; e.g. `https://factory.talos.dev/image/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba/v1.12.4/hcloud-amd64.raw.xz`)
+
+Run them with environment variables:
+
+```bash
+TF_ACC=1 HCLOUD_TOKEN=... IMAGER_TEST_IMAGE_URL=... go test ./... -run TestAcc -count=1 -v
+```
+
+Or run them with 1Password CLI “Secrets in Environments” (environment `cq2r5uieu3ymytht2e3exxzuu4`):
+
+```bash
+op run --environment cq2r5uieu3ymytht2e3exxzuu4 -- env TF_ACC=1 go test ./... -run TestAcc -count=1 -v
+```
+
 ## Cleanup
 
 Failures can leave temporary servers or ssh keys behind. The upstream library labels temp resources with `apricote.de/created-by=hcloud-upload-image`.

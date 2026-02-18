@@ -216,3 +216,5 @@ terraform.rc
 .idea/misc.xml
 .idea/terraform.xml
 .idea/vcs.xml
+
+README.local.md

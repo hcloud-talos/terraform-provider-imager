@@ -101,6 +101,7 @@ func (r *imageResource) Schema(ctx context.Context, _ resource.SchemaRequest, re
 			},
 			"debug_skip_cleanup": schema.BoolAttribute{
 				Optional:    true,
+				Computed:    true,
 				Default:     booldefault.StaticBool(false),
 				Description: "Skip cleanup of temporary server and ssh key. Only use for debugging.",
 				PlanModifiers: []planmodifier.Bool{

@@ -1,5 +1,38 @@
 [tools]
-go = "1.25.0"
+go = "1.26.0"
+hk = "1.36.0"
+pkl = "0.30.2"
+golangci-lint = "2.10.1"
 
 [prepare]
 go = { auto = true }
+
+[tasks.test]
+description = "Run unit tests"
+run = "go test ./..."
+
+[tasks."test:acc"]
+description = "Run acceptance tests (creates real Hetzner Cloud resources)"
+confirm = "This will create real Hetzner Cloud resources (billable). Continue?"
+env = { TF_ACC = "1" }
+run = "go test ./... -run TestAcc -count=1"
+
+[tasks.check]
+description = "Run repo checks (format, tidy, lint, tests)"
+run = "hk check --all"
+
+[tasks.fix]
+description = "Auto-fix formatting and lint"
+run = "hk fix --all"
+
+[tasks.hooks]
+description = "Install git hooks (via hk, using mise)"
+run = "hk install --mise"
+
+[tasks.build]
+description = "Build the Terraform provider"
+run = "go build ./cmd/terraform-provider-imager"
+
+[tasks.cleanup]
+description = "Cleanup leaked Hetzner Cloud resources (requires HCLOUD_TOKEN)"
+run = "go run ./cmd/imager-cleanup"
