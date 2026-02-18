@@ -208,6 +208,7 @@ terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/go,macos,intellij,terraform
 
+.idea/AICommit.xml
 .idea/copilot.data.*.xml
 .idea/detekt.xml
 .idea/git_toolbox_prj.xml
