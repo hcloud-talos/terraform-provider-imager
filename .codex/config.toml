@@ -1,0 +1,4 @@
+[mcp_servers.context7]
+type = "http"
+url = "https://mcp.context7.com/mcp"
+enabled = true
