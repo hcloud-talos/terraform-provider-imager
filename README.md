@@ -87,6 +87,42 @@ You can attempt cleanup via:
 HCLOUD_TOKEN=... go run ./cmd/imager-cleanup
 ```
 
+## Development
+
+Tooling is pinned via `mise.toml`:
+
+```bash
+mise install
+mise run check
+mise run docs:gen
+```
+
+### Local Terraform testing (dev overrides)
+
+Install the provider binary into your `GOBIN` (or default Go bin dir):
+
+```bash
+go install ./cmd/terraform-provider-imager
+```
+
+Then configure Terraform CLI to use that directory (example `~/.terraformrc`):
+
+```hcl
+provider_installation {
+  dev_overrides {
+    "hcloud-talos/imager" = "/absolute/path/to/go/bin"
+  }
+  direct {}
+}
+```
+
+## Releasing
+
+This repo uses GoReleaser (`.goreleaser.yml`) and GitHub Actions (`.github/workflows/release.yml`) to publish Terraform Registry-compatible release artifacts.
+
+- Tag a release like `v0.1.0`
+- Configure repo secrets: `GPG_PRIVATE_KEY` and `PASSPHRASE`
+
 ## Credits
 
 This provider builds on the excellent `hcloud-upload-image` project by @apricote. Thanks for creating and maintaining it.

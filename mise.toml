@@ -36,3 +36,26 @@ run = "go build ./cmd/terraform-provider-imager"
 [tasks.cleanup]
 description = "Cleanup leaked Hetzner Cloud resources (requires HCLOUD_TOKEN)"
 run = "go run ./cmd/imager-cleanup"
+
+[tasks."docs:gen"]
+description = "Generate Terraform Registry docs into docs/"
+run = """
+mkdir -p .cache/gomod .cache/gocache .cache/gopath .cache/home .cache/xdg .cache/tfplugindocs && \
+env GOPATH="$PWD/.cache/gopath" \
+  GOMODCACHE="$PWD/.cache/gomod" \
+  GOCACHE="$PWD/.cache/gocache" \
+  HOME="$PWD/.cache/home" \
+  XDG_CACHE_HOME="$PWD/.cache/xdg" \
+  go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.24.0 generate \
+    --provider-dir cmd/terraform-provider-imager \
+    --provider-name imager \
+    --tf-version 1.9.0 \
+    --examples-dir ../../examples \
+    --website-source-dir ../../templates \
+    --rendered-website-dir ../../docs \
+    --website-temp-dir .cache/tfplugindocs
+"""
+
+[tasks."docs:check"]
+description = "Verify docs/ is up to date"
+run = "mise run docs:gen && git diff --exit-code -- docs/"

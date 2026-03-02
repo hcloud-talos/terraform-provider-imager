@@ -218,3 +218,7 @@ terraform.rc
 .idea/vcs.xml
 
 README.local.md
+
+# Local tool caches / build output
+.cache/
+dist/
