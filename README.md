@@ -2,6 +2,9 @@
 
 Uploads Talos disk images (`*.raw.xz`) into Hetzner Cloud by creating a temporary rescue server, writing the image to the root disk, snapshotting it, and cleaning up.
 
+> [!WARNING]
+> This project is **alpha** quality and **not well-tested yet**. Use at your own risk, and double-check Hetzner Cloud resources and costs after apply/destroy.
+
 ## Configuration
 
 The provider uses `HCLOUD_TOKEN` by default:
