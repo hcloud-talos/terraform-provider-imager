@@ -4,9 +4,6 @@ hk = "1.36.0"
 pkl = "0.30.2"
 golangci-lint = "2.10.1"
 
-[prepare]
-go = { auto = true }
-
 [tasks.test]
 description = "Run unit tests"
 run = "go test ./..."
