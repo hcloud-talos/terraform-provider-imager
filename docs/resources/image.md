@@ -35,8 +35,8 @@ resource "imager_image" "example" {
 ### Optional
 
 - `debug_skip_cleanup` (Boolean) Skip cleanup of temporary server and ssh key. Only use for debugging.
-- `description` (String) Description applied to the resulting snapshot image.
-- `labels` (Map of String) Additional labels applied to the resulting snapshot image.
+- `description` (String) Description applied to the resulting snapshot image (shown as the snapshot name in the Hetzner Cloud UI).
+- `labels` (Map of String) Additional labels applied to the resulting snapshot image (must follow Hetzner label rules; label values cannot contain '/').
 - `location` (String) Hetzner location name for the temporary upload server. Defaults to fsn1.
 - `server_type` (String) Hetzner server type name for the temporary upload server.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
