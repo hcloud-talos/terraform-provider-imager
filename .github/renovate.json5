@@ -1,0 +1,47 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended", ":automergePatch"],
+  assignees: ["mrclrchtr"],
+  prHourlyLimit: 0,
+  rangeStrategy: "bump",
+  ignorePaths: [
+    "examples/**",
+  ],
+  packageRules: [
+    {
+      matchManagers: ["terraform"],
+      semanticCommitType: "fix",
+    },
+    {
+      matchPackageNames: ["hashicorp/terraform"],
+      rangeStrategy: "widen",
+    },
+    {
+      matchDepTypes: ["action"],
+      pinDigests: true,
+      automerge: true,
+    },
+  ],
+  customManagers: [
+    {
+      description: "Update semantic-release in GitHub Action workflows",
+      customType: "regex",
+      managerFilePatterns: ["/^\\.github\\/(actions|workflows)\\/.+\\.ya?ml$/"],
+      matchStrings: [
+        "semantic_version\\s*:\\s*(\"|')?(?<currentValue>.+)(\"|'|(\\s+)|\\n|$)",
+      ],
+      datasourceTemplate: "npm",
+      depNameTemplate: "semantic-release",
+    },
+    {
+      description: "Update conventional-changelog-conventionalcommits in GitHub Action workflows",
+      customType: "regex",
+      managerFilePatterns: ["/^\\.github\\/(actions|workflows)\\/.+\\.ya?ml$/"],
+      matchStrings: [
+        ".*(?<depName>conventional-changelog-conventionalcommits)@(?<currentValue>.+?)(\"|'|(\\s+)|\\n|$)",
+      ],
+      datasourceTemplate: "npm",
+      depNameTemplate: "conventional-changelog-conventionalcommits",
+    },
+  ],
+}
