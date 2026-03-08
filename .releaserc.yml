@@ -1,0 +1,43 @@
+branches:
+  - name: "+([0-9])?(.{+([0-9]),x}).x"
+    channel: "latest"
+  - name: "main"
+    channel: "latest"
+  - name: "next"
+    channel: "next"
+    prerelease: true
+
+tagFormat: "v${version}"
+
+plugins:
+  - "@semantic-release/commit-analyzer"
+
+analyzeCommits:
+  - path: "@semantic-release/commit-analyzer"
+    preset: "angular"
+    releaseRules:
+      - breaking: true
+        release: "major"
+      - type: "feat"
+        release: "minor"
+      - revert: true
+        release: "patch"
+      - type: "fix"
+        release: "patch"
+      - type: "perf"
+        release: "patch"
+      - type: "docs"
+        release: "patch"
+      - type: "style"
+        release: false
+      - type: "ci"
+        release: false
+      - type: "chore"
+        scope: "deps"
+        release: false
+      - type: "chore"
+        scope: "project"
+        release: false
+      - type: "chore"
+        scope: "ai"
+        release: false

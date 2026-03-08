@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "next"]
   pull_request:
 
 permissions:
@@ -26,4 +26,3 @@ jobs:
 
       - name: Docs up-to-date
         run: mise run docs:check
-
