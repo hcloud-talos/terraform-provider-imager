@@ -16,9 +16,22 @@ provider "registry.terraform.io/hcloud-talos/imager" {
 
 provider "registry.terraform.io/siderolabs/talos" {
   version     = "0.10.1"
-  constraints = ">= 0.7.0"
+  constraints = ">= 0.10.1"
   hashes = [
+    "h1:1/HTp6cDJWQJzRj8preKQvw3x/qffivOJhZx27OmAig=",
+    "h1:5NH5P1sqJqFAhAQxfZ0CC1T5Aj6jZLe53lWgJHPhrk0=",
+    "h1:97x1aN9Ydi+yO9IOGFed+mbjh8myBMPKQY36vLS9Sk0=",
+    "h1:PVonzANqcaopoXwRFHWZL6Q4iPs9YFhaJ+Y2c9iYRTs=",
+    "h1:WaWU/5BK+X9s/Vt1f6Iz/6iyWxC1KBN+hMN0VxisILg=",
+    "h1:ZmyK5/k34tApxFFbqKe5W/Q9RZEMgUdaVqcF92AeUow=",
+    "h1:aZRJCGsYiSQK2GCwofbv6iFWLvVj+wwZrwyh8chYjVs=",
+    "h1:fUnidKAmrtS9rdzrH5QyPUH8LSHQCqU05UTSLPRDJos=",
     "h1:fc7ekyeFDNNvScqgHgowGjM9jnKFyUOMGfnEKJwuf1c=",
+    "h1:gWMvxlc8zIyeA0snj+6rarGUuBGtpb5D/mRttkbQ2hQ=",
+    "h1:hcyPHdphfvQ9lH7yWwy8XTjfE2h2WJNydMMXbli9jGo=",
+    "h1:kNrX3umPDAktIxQWUtx5lN6TGcDTqZxR79mTRqzU7Hg=",
+    "h1:rXc4IengYQexTK0URU4MRGtrkO0iS3YFTUeozTigBHo=",
+    "h1:y+7wlj9usfM3aoSkU+J1VRatR4k1NGKMOW7oA5c8H/Y=",
     "zh:0fa82a384b25a58b65523e0ea4768fa1212b1f5cfc0c9379d31162454fedcc9d",
     "zh:349463cdd4cdb36e03276fdb855e687242237c7cf0bd5871aea995a83838c52e",
     "zh:3885026ef7c1c7012d312fc37a35af70821650b10cef03b8ffd08d22145c117d",
