@@ -1,6 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended", ":automergePatch"],
+  extends: ["config:recommended", ":automergeMinor"],
   assignees: ["mrclrchtr"],
   prHourlyLimit: 0,
   rangeStrategy: "bump",
