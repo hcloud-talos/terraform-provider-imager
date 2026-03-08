@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -87,16 +86,20 @@ func (r *imageResource) Schema(ctx context.Context, _ resource.SchemaRequest, re
 			"labels": schema.MapAttribute{
 				Optional:    true,
 				ElementType: types.StringType,
-				Description: "Additional labels applied to the resulting snapshot image.",
-				PlanModifiers: []planmodifier.Map{
-					mapplanmodifier.RequiresReplace(),
+				Description: "Additional labels applied to the resulting snapshot image (must follow Hetzner label rules; label values cannot contain '/').",
+				Validators: []validator.Map{
+					hcloudResourceLabelsValidator{},
 				},
 			},
 			"description": schema.StringAttribute{
 				Optional:    true,
-				Description: "Description applied to the resulting snapshot image.",
+				Computed:    true,
+				Description: "Description applied to the resulting snapshot image (shown as the snapshot name in the Hetzner Cloud UI).",
+				Validators: []validator.String{
+					stringvalidator.LengthAtLeast(1),
+				},
 				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"debug_skip_cleanup": schema.BoolAttribute{
@@ -191,6 +194,30 @@ func (r *imageResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	effective := mergeLabels(defaultLabels(archLabel), labels)
+	if err := validateHcloudResourceLabels(effective); err != nil {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("labels"),
+			"Invalid labels",
+			fmt.Sprintf(
+				"%s. Note: Hetzner Cloud label values may contain only letters/numbers plus '-', '_' and '.', and must start/end with a letter or number (no '/').",
+				err.Error(),
+			),
+		)
+		return
+	}
+
+	if plan.Description.IsNull() || plan.Description.ValueString() == "" {
+		version := effective["version"]
+		if version == "" {
+			version = extractTalosVersionFromImageURL(parsedURL)
+		}
+
+		if version != "" {
+			plan.Description = types.StringValue(fmt.Sprintf("Talos Linux %s %s by hcloud-talos", version, archLabel))
+		} else {
+			plan.Description = types.StringValue(fmt.Sprintf("Talos Linux %s by hcloud-talos", archLabel))
+		}
+	}
 
 	opts := hcloudimages.UploadOptions{
 		ImageURL:                 parsedURL,
@@ -271,6 +298,7 @@ func (r *imageResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	state.ID = types.StringValue(fmt.Sprintf("%d", image.ID))
 	state.ImageID = state.ID
+	state.Description = types.StringValue(image.Description)
 	if image.Labels != nil {
 		state.EffectiveLabels = types.MapValueMust(types.StringType, stringMapToAttrValues(image.Labels))
 	}
@@ -279,10 +307,83 @@ func (r *imageResource) Read(ctx context.Context, req resource.ReadRequest, resp
 }
 
 func (r *imageResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError(
-		"Update not supported",
-		"All configurable attributes require replacement. This operation should not be called; please report this as a provider bug.",
-	)
+	var plan imageResourceModel
+	var state imageResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	updateTimeout, diags := state.Timeouts.Read(ctx, 2*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	ctx, cancel := context.WithTimeout(ctx, updateTimeout)
+	defer cancel()
+
+	if state.ID.IsNull() || state.ID.ValueString() == "" {
+		resp.Diagnostics.AddError("Update failed", "Missing id in state.")
+		return
+	}
+
+	imageID, err := parseImageID(state.ID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Invalid id", err.Error())
+		return
+	}
+
+	updateOpts := hcloud.ImageUpdateOpts{
+		Description: stringPointerFromTypes(plan.Description),
+	}
+
+	if !plan.Labels.IsNull() {
+		labels := map[string]string{}
+		resp.Diagnostics.Append(plan.Labels.ElementsAs(ctx, &labels, true)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+
+		_, archLabel, err := mapArchitecture(plan.Architecture.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Invalid architecture", err.Error())
+			return
+		}
+
+		effective := mergeLabels(defaultLabels(archLabel), labels)
+		if err := validateHcloudResourceLabels(effective); err != nil {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("labels"),
+				"Invalid labels",
+				fmt.Sprintf(
+					"%s. Note: Hetzner Cloud label values may contain only letters/numbers plus '-', '_' and '.', and must start/end with a letter or number (no '/').",
+					err.Error(),
+				),
+			)
+			return
+		}
+
+		updateOpts.Labels = effective
+	}
+
+	image := &hcloud.Image{ID: imageID}
+	updated, _, err := r.hcloudClient.Image.Update(ctx, image, updateOpts)
+	if err != nil {
+		resp.Diagnostics.AddError("Update failed", err.Error())
+		return
+	}
+
+	state.Labels = plan.Labels
+	state.Description = plan.Description
+	if updated != nil {
+		state.Description = types.StringValue(updated.Description)
+		if updated.Labels != nil {
+			state.EffectiveLabels = types.MapValueMust(types.StringType, stringMapToAttrValues(updated.Labels))
+		}
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
 func (r *imageResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

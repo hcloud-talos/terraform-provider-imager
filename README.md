@@ -56,7 +56,7 @@ lifecycle {
 
 This provider expects a public `https://...*.raw.xz` URL. A common workflow is to generate it with Terraform Provider Talos.
 
-See `terraform-provider-imager/examples/with-talos/main.tf`.
+See `terraform-provider-imager/examples/talos-image-factory/main.tf`.
 
 ## Testing
 
@@ -68,16 +68,16 @@ Acceptance tests create real Hetzner Cloud resources (billable) and require:
 - `HCLOUD_TOKEN`
 - `IMAGER_TEST_IMAGE_URL` (public `https://...*.raw.xz` URL; e.g. `https://factory.talos.dev/image/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba/v1.12.4/hcloud-amd64.raw.xz`)
 
-Run them with environment variables:
+Run them with `mise` so the pinned Go toolchain is used:
 
 ```bash
-TF_ACC=1 HCLOUD_TOKEN=... IMAGER_TEST_IMAGE_URL=... go test ./... -run TestAcc -count=1 -v
+HCLOUD_TOKEN=... IMAGER_TEST_IMAGE_URL=... mise run test:acc
 ```
 
-Or run them with 1Password CLI “Secrets in Environments” (environment `cq2r5uieu3ymytht2e3exxzuu4`):
+Or run them with 1Password CLI "Secrets in Environments":
 
 ```bash
-op run --environment cq2r5uieu3ymytht2e3exxzuu4 -- env TF_ACC=1 go test ./... -run TestAcc -count=1 -v
+op run --environment <environment-uuid> -- env TF_ACC=1 mise exec -- go test ./... -run TestAcc -count=1 -v
 ```
 
 ## Cleanup

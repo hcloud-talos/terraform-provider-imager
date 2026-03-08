@@ -4,7 +4,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/examples/with-talos/.terraform/providers" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/talos-image-factory/.terraform/providers" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

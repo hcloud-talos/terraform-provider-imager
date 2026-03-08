@@ -5,7 +5,7 @@
 - `cmd/terraform-provider-imager/`: Terraform provider entrypoint (serves `registry.terraform.io/hcloud-talos/imager`).
 - `cmd/imager-cleanup/`: CLI helper to remove leaked temporary Hetzner resources.
 - `internal/provider/`: provider implementation (`imager_image`) plus unit and acceptance tests.
-- `examples/with-talos/`: example Terraform config using Talos Image Factory URLs.
+- `examples/talos-image-factory/`: example Terraform config using Talos Image Factory URLs.
 - `README.md`: usage, configuration, and operational notes.
 
 ## Build, Test, and Development Commands

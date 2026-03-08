@@ -9,7 +9,7 @@ import (
 func TestMergeLabels_UserOverridesDefaults(t *testing.T) {
 	defaults := map[string]string{
 		"os":      "talos",
-		"creator": "hcloud-talos/imager",
+		"creator": "hcloud-talos-imager",
 	}
 	user := map[string]string{
 		"creator": "override",

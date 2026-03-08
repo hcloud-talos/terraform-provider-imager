@@ -27,7 +27,7 @@ func parseImageID(raw string) (int64, error) {
 }
 
 func stringPointerFromTypes(v types.String) *string {
-	if v.IsNull() || v.ValueString() == "" {
+	if v.IsNull() || v.IsUnknown() || v.ValueString() == "" {
 		return nil
 	}
 	s := v.ValueString()

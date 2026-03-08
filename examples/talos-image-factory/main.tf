@@ -51,11 +51,11 @@ data "talos_image_factory_urls" "hcloud_amd64" {
 resource "imager_image" "talos_x86" {
   image_url    = data.talos_image_factory_urls.hcloud_amd64.urls.disk_image
   architecture = "x86"
+  description  = "Talos Linux ${var.talos_version} x86 by hcloud-talos"
 
   labels = {
     os      = "talos"
-    creator = "hcloud-talos/imager"
+    creator = "hcloud-talos-imager"
     version = var.talos_version
   }
 }
-
