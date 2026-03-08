@@ -9,6 +9,10 @@
   ],
   packageRules: [
     {
+      matchManagers: ["gomod"],
+      postUpdateOptions: ["gomodTidy"],
+    },
+    {
       matchManagers: ["terraform"],
       semanticCommitType: "fix",
     },
