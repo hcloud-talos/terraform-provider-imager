@@ -2,7 +2,7 @@
 go = "1.26.1"
 hk = "1.38.0"
 pkl = "0.31.0"
-golangci-lint = "2.11.2"
+golangci-lint = "2.11.3"
 
 [tasks.test]
 description = "Run unit tests"
