@@ -13,6 +13,19 @@
       postUpdateOptions: ["gomodTidy"],
     },
     {
+      description: "Group Terraform plugin dependencies that must be updated together",
+      matchPackageNames: [
+        "github.com/hashicorp/terraform-plugin-framework",
+        "github.com/hashicorp/terraform-plugin-go",
+        "github.com/hashicorp/terraform-plugin-sdk/v2",
+        "github.com/hashicorp/terraform-plugin-testing",
+        "github.com/hashicorp/terraform-plugin-mux",
+        "github.com/hashicorp/terraform-plugin-framework-timeouts",
+        "github.com/hashicorp/terraform-plugin-framework-validators",
+      ],
+      groupName: "terraform-plugin dependencies",
+    },
+    {
       matchManagers: ["terraform"],
       semanticCommitType: "fix",
     },
