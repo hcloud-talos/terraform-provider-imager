@@ -1,6 +1,6 @@
 module github.com/hcloud-talos/terraform-provider-imager
 
-go 1.26.1
+go 1.26.2
 
 require (
 	github.com/apricote/hcloud-upload-image/hcloudimages v1.3.0
