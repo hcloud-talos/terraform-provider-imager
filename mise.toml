@@ -43,7 +43,7 @@ env GOPATH="$PWD/.cache/gopath" \
   GOCACHE="$PWD/.cache/gocache" \
   HOME="$PWD/.cache/home" \
   XDG_CACHE_HOME="$PWD/.cache/xdg" \
-  go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.24.0 generate \
+  go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0 generate \
     --provider-dir cmd/terraform-provider-imager \
     --provider-name imager \
     --tf-version 1.9.0 \
