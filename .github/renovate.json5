@@ -41,6 +41,15 @@
   ],
   customManagers: [
     {
+      description: "Update go run/install/tool dependencies in mise.toml and CI scripts",
+      customType: "regex",
+      managerFilePatterns: ["/^(mise\.toml|\\.github/workflows/.+\\.ya?ml|scripts/.+\\.sh)$/"],
+      matchStrings: [
+        "go (?:run|install|tool) (?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
+      ],
+      datasourceTemplate: "go",
+    },
+    {
       description: "Update semantic-release in GitHub Action workflows",
       customType: "regex",
       managerFilePatterns: ["/^\\.github\\/(actions|workflows)\\/.+\\.ya?ml$/"],
