@@ -10,7 +10,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 	github.com/hashicorp/terraform-plugin-log v0.10.0
 	github.com/hashicorp/terraform-plugin-testing v1.16.0
-	github.com/hetznercloud/hcloud-go/v2 v2.43.0
+	github.com/hetznercloud/hcloud-go/v2 v2.44.0
 )
 
 require (
