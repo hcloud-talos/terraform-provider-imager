@@ -1,7 +1,7 @@
 [tools]
 go = "1.26.5"
 hk = "1.50.0"
-pkl = "0.31.1"
+pkl = "0.32.0"
 golangci-lint = "2.12.2"
 
 [tasks.test]
