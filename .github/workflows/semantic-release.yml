@@ -43,4 +43,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
-          semantic_version: 25.0.7
+          semantic_version: 25.0.8
