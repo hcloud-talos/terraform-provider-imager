@@ -11,6 +11,7 @@ github.com/apparentlymart/go-textseg/v15 v15.0.0 h1:uYvfpb3DyLSCGWnctWKGj857c6ew
 github.com/apparentlymart/go-textseg/v15 v15.0.0/go.mod h1:K8XmNZdhEBkdlyDdvbmmsvpAG721bKi0joRfFdHIWJ4=
 github.com/apricote/hcloud-upload-image/hcloudimages v1.4.0 h1:h9cxSQo8uYn7y5zLEOQF/GjLuXAqU9eVHt6vY/XIM1Y=
 github.com/apricote/hcloud-upload-image/hcloudimages v1.4.0/go.mod h1:9452aAvFQ28wGKZOMWS6djWvoQwqhbfUg6I2zEQIUXI=
+github.com/apricote/hcloud-upload-image/hcloudimages/v2 v2.0.1/go.mod h1:OBnyHwXlvUFZPqptHRGjDTPM0DWHOOhym2RVp8X+q5s=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/bufbuild/protocompile v0.14.1 h1:iA73zAf/fyljNjQKwYzUHD6AD4R8KMasmwa/FBatYVw=
