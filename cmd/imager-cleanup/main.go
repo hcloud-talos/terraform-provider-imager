@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/apricote/hcloud-upload-image/hcloudimages"
+	"github.com/apricote/hcloud-upload-image/hcloudimages/v2"
 	"github.com/hetznercloud/hcloud-go/v2/hcloud"
 )
 

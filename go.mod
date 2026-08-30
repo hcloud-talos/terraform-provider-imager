@@ -3,7 +3,7 @@ module github.com/hcloud-talos/terraform-provider-imager
 go 1.27.0
 
 require (
-	github.com/apricote/hcloud-upload-image/hcloudimages v1.4.0
+	github.com/apricote/hcloud-upload-image/hcloudimages/v2 v2.0.1
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-framework-timeouts v0.7.0
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0

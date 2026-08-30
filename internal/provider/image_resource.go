@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apricote/hcloud-upload-image/hcloudimages"
+	"github.com/apricote/hcloud-upload-image/hcloudimages/v2"
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -220,9 +220,11 @@ func (r *imageResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	opts := hcloudimages.UploadOptions{
-		ImageURL:                 parsedURL,
-		ImageCompression:         hcloudimages.CompressionXZ,
-		ImageFormat:              hcloudimages.FormatRaw,
+		WriteOptions: hcloudimages.WriteOptions{
+			ImageURL:         parsedURL,
+			ImageCompression: hcloudimages.CompressionXZ,
+			ImageFormat:      hcloudimages.FormatRaw,
+		},
 		Architecture:             arch,
 		Labels:                   effective,
 		Description:              stringPointerFromTypes(plan.Description),
